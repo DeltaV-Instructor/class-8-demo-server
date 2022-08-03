@@ -23,11 +23,58 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello from the Image Finder Server, have a great day!');
 });
 
+
+
+
+app.get('/photos', (req, res) =>{
+  try {
+    let searchQueryFromTheFrontEnd =
+
+  } catch (error) {
+
+  }
+
+
+
+
+
+
+
+
+  let url ='https://api.unsplash.com/photos/?client_id=YOUR_ACCESS_KEY';
+});
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('*', (req, res) => {
   res.status(404).send('These are not the droids your looking 404.');
 });
+
+
+
+
+
+
+
+
+
+
 //CLASSES
+
 //ERRORS
+app.use((error, req, res, next) => {
+  console.log(error.message);
+  res.status(500).send(error.message);
+});
 
 //LISTEN
 app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
