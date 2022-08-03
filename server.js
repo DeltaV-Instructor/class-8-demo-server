@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/photos', (req, res, next) =>{
+app.get('/photos', async (req, res, next) =>{
   try {
     //front end will send us a value for a search for photos
     let searchQueryFromTheFrontEnd = req.query.searchQuery;
@@ -35,12 +35,14 @@ app.get('/photos', (req, res, next) =>{
 
     let url = `https://api.unsplash.com/search/photos/?client_id=${process.env.UNSPLASH_API_KEY}&query=kittens&format=json`;
 
+    let results = await axios.get(url);
+    console.log('results from api', results.data.results);
+
+    let pictureInstance = results.data.results.map((pic) => new Photos(pic));
 
     // console.log('!!!!url',url);
 
-
-
-    res.status(200).send('hi');
+    res.status(200).send(pictureInstance);
   } catch (error) {
     next(error);
   }
@@ -80,6 +82,14 @@ app.get('*', (req, res) => {
 
 
 //CLASSES
+class Photos{
+  constructor(picture){
+    // console.log('image source: ', picture.urls.regular);
+    this.src = picture.urls.regular;
+    this.alt = picture.alt_description;
+    this.artist = picture.user.name;
+  }
+}
 
 //ERRORS
 // eslint-disable-next-line no-unused-vars
