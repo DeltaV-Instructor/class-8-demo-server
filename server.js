@@ -26,12 +26,23 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/photos', (req, res) =>{
+app.get('/photos', (req, res, next) =>{
   try {
-    let searchQueryFromTheFrontEnd =
+    //front end will send us a value for a search for photos
+    let searchQueryFromTheFrontEnd = req.query.searchQuery;
+    //then take that value and use it to construct a url to make a request to the api
+    // console.log('!!!!! req search: ',searchQueryFromTheFrontEnd);
 
+    let url = `https://api.unsplash.com/search/photos/?client_id=${process.env.UNSPLASH_API_KEY}&query=kittens&format=json`;
+
+
+    // console.log('!!!!url',url);
+
+
+
+    res.status(200).send('hi');
   } catch (error) {
-
+    next(error);
   }
 
 
@@ -71,6 +82,7 @@ app.get('*', (req, res) => {
 //CLASSES
 
 //ERRORS
+// eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
   console.log(error.message);
   res.status(500).send(error.message);
